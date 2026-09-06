@@ -977,3 +977,193 @@ pub async fn delete_webdav_backup_file(file_name: String) -> Result<(), String> 
     let connection = modules::webdav_sync::connection_from_config(&config)?;
     modules::webdav_sync::delete_remote_backup(&connection, &safe_name).await
 }
+
+// ─────────────────────────────────────────────────────────────────
+//  Login_Credential_Add_Tool — Named backup + credential merge
+// ─────────────────────────────────────────────────────────────────
+
+/// 保存一个以用户名命名的备份快照（例如 "Rajkumar_Laptop"）。
+/// 文件写入与自动备份目录相同，并同步生成 .zip 压缩包。
+/// 返回最终写入的文件完整路径。
+#[tauri::command]
+pub fn save_named_backup(name: String, content: String) -> Result<String, String> {
+    // Validate name: alphanumeric, underscores, dashes only — no path chars.
+    let name = name.trim().to_string();
+    if name.is_empty() {
+        return Err("备份名称不能为空".to_string());
+    }
+    let safe = name
+        .chars()
+        .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-');
+    if !safe {
+        return Err(
+            "备份名称只能包含字母、数字、下划线或连字符（例如 Rajkumar_Laptop）".to_string(),
+        );
+    }
+    if name.len() > 64 {
+        return Err("备份名称不能超过 64 个字符".to_string());
+    }
+
+    modules::backup_storage::ensure_backup_write_available()?;
+    let file_name = format!("{}.json", name);
+    let dir = ensure_auto_backup_dir_path()?;
+    let path = dir.join(&file_name);
+
+    crate::modules::atomic_write::write_string_atomic(&path, &content)
+        .map_err(|err| format!("写入命名备份失败: {}", err))?;
+
+    // Build companion zip (same mechanism as auto-backup)
+    if let Some(archive_name) = auto_backup_archive_file_name(&file_name) {
+        match build_auto_backup_zip_bytes(&file_name, &content) {
+            Ok(zip_bytes) => {
+                let archive_path = dir.join(archive_name);
+                if let Err(err) =
+                    crate::modules::atomic_write::write_bytes_atomic(&archive_path, &zip_bytes)
+                {
+                    crate::modules::logger::log_warn(&format!(
+                        "[NamedBackup] 写入压缩包失败（已忽略）: {}",
+                        err
+                    ));
+                }
+            }
+            Err(err) => {
+                crate::modules::logger::log_warn(&format!(
+                    "[NamedBackup] 生成压缩包失败（已忽略）: {}",
+                    err
+                ));
+            }
+        }
+    }
+
+    crate::modules::logger::log_info(&format!(
+        "[NamedBackup] 命名备份已保存: name={}, path={}",
+        name,
+        path.display()
+    ));
+    Ok(path.to_string_lossy().to_string())
+}
+
+/// 将外部备份 JSON（来自另一台电脑）的各平台账号逐一合并进本机。
+/// 账号重复时 upsert 函数会保留最新的，不会创建完全重复条目。
+/// 返回每个平台的导入数量汇总。
+#[tauri::command]
+pub fn merge_credentials_from_json(
+    content: String,
+) -> Result<Vec<CredentialMergePlatformResult>, String> {
+    use serde_json::Value;
+
+    let root: Value = serde_json::from_str(&content)
+        .map_err(|e| format!("无法解析备份 JSON: {}", e))?;
+
+    // Accept either the full DataTransferBundle or a standalone AccountTransferBundle.
+    // Both wrap platforms under `.accounts.platforms` or `.platforms`.
+    let platforms_value = root
+        .get("accounts")
+        .and_then(|a| a.get("platforms"))
+        .or_else(|| root.get("platforms"))
+        .ok_or_else(|| "备份 JSON 中未找到 platforms 字段，请确认文件格式正确".to_string())?;
+
+    let platforms_obj = platforms_value
+        .as_object()
+        .ok_or_else(|| "platforms 字段格式错误".to_string())?;
+
+    let mut results: Vec<CredentialMergePlatformResult> = Vec::new();
+
+    // For each platform found in the backup, extract `exported_data` / `data` / `accounts`
+    // and pass it through the existing per-platform JSON importer.
+    for (platform_id, payload) in platforms_obj {
+        let raw_accounts = payload
+            .get("exported_data")
+            .or_else(|| payload.get("data"))
+            .or_else(|| payload.get("accounts"))
+            .unwrap_or(payload);
+
+        if raw_accounts.is_null() {
+            continue;
+        }
+        // Skip empty arrays early.
+        if let Some(arr) = raw_accounts.as_array() {
+            if arr.is_empty() {
+                continue;
+            }
+        }
+
+        let accounts_json = serde_json::to_string(raw_accounts)
+            .map_err(|e| format!("序列化平台 {} 账号失败: {}", platform_id, e))?;
+
+        let (imported, error) = match_platform_import(platform_id, &accounts_json);
+
+        crate::modules::logger::log_info(&format!(
+            "[CredentialMerge] platform={}, imported={}, error={:?}",
+            platform_id, imported, error
+        ));
+
+        results.push(CredentialMergePlatformResult {
+            platform: platform_id.clone(),
+            imported,
+            error,
+        });
+    }
+
+    Ok(results)
+}
+
+/// Per-platform import dispatch.  Each arm calls the existing `import_from_json` function
+/// that already handles deduplication via upsert logic.
+fn match_platform_import(platform_id: &str, accounts_json: &str) -> (usize, Option<String>) {
+    use crate::modules::{
+        account as antigravity_account,
+        codebuddy_account,
+        codebuddy_cn_account,
+        codex_account,
+        cursor_account,
+        github_copilot_account,
+        kiro_account,
+        qoder_account,
+        trae_account,
+        windsurf_account,
+        workbuddy_account,
+        zcode_account,
+        zed_account,
+    };
+
+    macro_rules! try_import {
+        ($import_fn:expr) => {{
+            match $import_fn(accounts_json) {
+                Ok(list) => (list.len(), None),
+                Err(e) => (0, Some(e)),
+            }
+        }};
+    }
+
+    match platform_id {
+        "trae" | "trae_solo" | "trae_cn" | "trae_solo_cn" => {
+            try_import!(trae_account::import_from_json)
+        }
+        "kiro" => try_import!(kiro_account::import_from_json),
+        "windsurf" => try_import!(windsurf_account::import_from_json),
+        "antigravity" | "antigravity_ide" => {
+            try_import!(antigravity_account::import_from_json)
+        }
+        "codex" => try_import!(codex_account::import_from_json),
+        "github-copilot" => try_import!(github_copilot_account::import_from_json),
+        "cursor" => try_import!(cursor_account::import_from_json),
+        "zed" => try_import!(zed_account::import_from_json),
+        "codebuddy" => try_import!(codebuddy_account::import_from_json),
+        "codebuddy_cn" => try_import!(codebuddy_cn_account::import_from_json),
+        "qoder" => try_import!(qoder_account::import_from_json),
+        "zcode" => try_import!(zcode_account::import_from_json),
+        "workbuddy" => try_import!(workbuddy_account::import_from_json),
+        other => (
+            0,
+            Some(format!("平台 '{}' 暂不支持自动合并，请手动导入", other)),
+        ),
+    }
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct CredentialMergePlatformResult {
+    pub platform: String,
+    pub imported: usize,
+    pub error: Option<String>,
+}

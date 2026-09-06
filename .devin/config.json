@@ -1,0 +1,7 @@
+{
+  "read_config_from": {
+    "windsurf": true,
+    "cursor": true,
+    "claude": true
+  }
+}

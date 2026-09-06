@@ -13,7 +13,7 @@ use crate::models::windsurf::{
 };
 use crate::modules::logger;
 
-const WINDSURF_AUTH_BASE_URL: &str = "https://www.windsurf.com";
+const WINDSURF_AUTH_BASE_URL: &str = "https://windsurf.com";
 const WINDSURF_REGISTER_API_BASE_URL: &str = "https://register.windsurf.com";
 const WINDSURF_WEB_BACKEND_API_BASE_URL: &str = "https://web-backend.windsurf.com";
 const WINDSURF_BACKEND_API_BASE_URL: &str = "https://windsurf.com/_backend";
@@ -381,7 +381,7 @@ fn build_auth_url(redirect_uri: &str, state: &str) -> String {
     params.append_pair("redirect_parameters_type", "query");
     params.append_pair("workflow", "onboarding");
     format!(
-        "{}/windsurf/signin?{}",
+        "{}/account/login?{}",
         WINDSURF_AUTH_BASE_URL,
         params.finish()
     )

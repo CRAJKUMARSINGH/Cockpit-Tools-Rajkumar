@@ -16,6 +16,7 @@ use crate::models::kiro::{
 use crate::modules::{kiro_account, logger};
 
 const KIRO_AUTH_PORTAL_URL: &str = "https://app.kiro.dev/signin";
+const KIRO_AUTH_DIRECT_URL: &str = "https://prod.us-east-1.auth.desktop.kiro.dev/login";
 const KIRO_TOKEN_ENDPOINT: &str = "https://prod.us-east-1.auth.desktop.kiro.dev/oauth/token";
 const KIRO_REFRESH_ENDPOINT: &str = "https://prod.us-east-1.auth.desktop.kiro.dev/refreshToken";
 const KIRO_AWS_OIDC_TOKEN_ENDPOINT_FMT: &str = "https://oidc.{region}.amazonaws.com/token";
@@ -572,12 +573,21 @@ fn build_portal_auth_url(
     redirect_uri: &str,
     from_amazon_internal: bool,
 ) -> String {
+    // Use the direct Kiro auth endpoint (same URL the official Kiro IDE opens).
+    // The redirect_uri must include the /oauth/callback path so the local server
+    // receives the code at the correct route.
+    let callback_redirect_uri = if redirect_uri.trim_end_matches('/').ends_with("/oauth/callback") {
+        redirect_uri.to_string()
+    } else {
+        format!("{}/oauth/callback", redirect_uri.trim_end_matches('/'))
+    };
+
     let mut url = format!(
         "{}?state={}&code_challenge={}&code_challenge_method=S256&redirect_uri={}&redirect_from=KiroIDE",
-        KIRO_AUTH_PORTAL_URL,
+        KIRO_AUTH_DIRECT_URL,
         urlencoding::encode(state_token),
         urlencoding::encode(code_challenge),
-        urlencoding::encode(redirect_uri),
+        urlencoding::encode(&callback_redirect_uri),
     );
     if from_amazon_internal {
         url.push_str("&from_amazon_internal=true");
@@ -803,11 +813,12 @@ fn build_token_exchange_redirect_uri(
     } else {
         format!("/{}", callback.path)
     };
+    // The redirect_uri sent to the token endpoint must exactly match the one
+    // registered with the auth server (no extra query params).
     format!(
-        "{}{}?login_option={}",
+        "{}{}",
         base_callback_url.trim_end_matches('/'),
         callback_path,
-        urlencoding::encode(callback.login_option.as_str()),
     )
 }
 
@@ -2475,7 +2486,7 @@ pub async fn start_login(
     let pending = PendingOAuthState {
         login_id: generate_token(),
         expires_at: now_timestamp() + OAUTH_TIMEOUT_SECONDS as i64,
-        verification_uri: KIRO_AUTH_PORTAL_URL.to_string(),
+        verification_uri: KIRO_AUTH_DIRECT_URL.to_string(),
         verification_uri_complete,
         callback_url: callback_url.clone(),
         callback_port,

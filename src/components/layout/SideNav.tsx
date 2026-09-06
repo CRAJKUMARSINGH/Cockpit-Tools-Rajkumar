@@ -1,4 +1,4 @@
-import { Settings, Rocket, GaugeCircle, LayoutGrid, SlidersHorizontal, FileText, ChevronDown, PanelLeftClose, PanelLeftOpen, ShieldCheck } from 'lucide-react';
+import { Settings, Rocket, GaugeCircle, LayoutGrid, SlidersHorizontal, FileText, ChevronDown, PanelLeftClose, PanelLeftOpen, ShieldCheck, GitMerge } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useState, useRef, useCallback, useEffect, useLayoutEffect, useMemo, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
@@ -1029,6 +1029,17 @@ export function SideNav({
               <span className="nav-item-text">{t('nav.settings')}</span>
             ) : null}
           </button>
+
+          <button
+            className={`nav-item ${page === 'login-credential-tool' && !shouldLockActiveOnMore ? 'active' : ''}`}
+            onClick={() => setPage('login-credential-tool')}
+            title="Login_Credential_Add_Tool"
+          >
+            <GitMerge size={isClassicLayout ? classicMainIconSize : 20} />
+            {showClassicLabels ? (
+              <span className="nav-item-text">Credential Add</span>
+            ) : null}
+          </button>
         </div>
       )}
 
@@ -1042,6 +1053,14 @@ export function SideNav({
             >
               <Settings size={20} />
               <span className="tooltip">{t('nav.settings')}</span>
+            </button>
+            <button
+              className={`nav-item ${page === 'login-credential-tool' && !shouldLockActiveOnMore ? 'active' : ''}`}
+              onClick={() => setPage('login-credential-tool')}
+              title="Login_Credential_Add_Tool"
+            >
+              <GitMerge size={20} />
+              <span className="tooltip">Credential Add</span>
             </button>
           </div>
 

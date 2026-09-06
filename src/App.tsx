@@ -174,6 +174,9 @@ const ManualPage = lazy(() =>
 const ApiKeyFunPage = lazy(() =>
   import('./pages/ApiKeyFunPage').then((module) => ({ default: module.ApiKeyFunPage })),
 );
+const LoginCredentialAddTool = lazy(() =>
+  import('./pages/LoginCredentialAddTool').then((module) => ({ default: module.LoginCredentialAddTool })),
+);
 const InstancesPage = lazy(() =>
   import('./pages/InstancesPage').then((module) => ({ default: module.InstancesPage })),
 );
@@ -4085,6 +4088,9 @@ function MainApp() {
           </VisibleBootPage>
           <VisibleBootPage when={page === 'settings'}>
             <SettingsPage />
+          </VisibleBootPage>
+          <VisibleBootPage when={page === 'login-credential-tool'}>
+            <LoginCredentialAddTool />
           </VisibleBootPage>
         </Suspense>
       </div>

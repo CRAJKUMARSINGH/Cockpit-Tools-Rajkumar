@@ -1,5 +1,7 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { invoke } from '@tauri-apps/api/core';
+import { open } from '@tauri-apps/plugin-dialog';
 import { useAccountStore } from '../stores/useAccountStore';
 import { useCodexAccountStore } from '../stores/useCodexAccountStore';
 import { useGitHubCopilotAccountStore } from '../stores/useGitHubCopilotAccountStore';
@@ -28,7 +30,7 @@ import {
   usePlatformLayoutStore,
 } from '../stores/usePlatformLayoutStore';
 import { Page } from '../types/navigation';
-import { Users, CheckCircle2, Sparkles, RotateCw, Play, Github, Tag, ChevronDown, EyeOff, X } from 'lucide-react';
+import { Users, CheckCircle2, Sparkles, RotateCw, Play, Github, Tag, ChevronDown, EyeOff, X, Download } from 'lucide-react';
 import { TagEditModal } from '../components/TagEditModal';
 import { Account } from '../types/account';
 import {
@@ -288,6 +290,10 @@ export function DashboardPage({
   const [dashboardCardCollapse, setDashboardCardCollapse] = React.useState<DashboardCardCollapseState>({
     workbuddy: false,
   });
+  const [mergeModalOpen, setMergeModalOpen] = useState(false);
+  const [mergeBackupPath, setMergeBackupPath] = useState('');
+  const [mergeResult, setMergeResult] = useState<{ merged_count: number; skipped_count: number; error_count: number; errors: string[]; merged_accounts: string[] } | null>(null);
+  const [isMerging, setIsMerging] = useState(false);
 
   const toggleDashboardCardCollapse = useCallback((platform: keyof DashboardCardCollapseState) => {
     setDashboardCardCollapse((prev) => ({
@@ -2769,6 +2775,40 @@ export function DashboardPage({
     </button>
   );
 
+  const handleMergeBackup = async () => {
+    if (!mergeBackupPath) {
+      return;
+    }
+    setIsMerging(true);
+    try {
+      const result = await invoke<{ merged_count: number; skipped_count: number; error_count: number; errors: string[]; merged_accounts: string[] }>('merge_backup_from_file', { backupPath: mergeBackupPath });
+      setMergeResult(result);
+      // Refresh accounts after merge
+      await fetchAgAccounts();
+    } catch (error) {
+      console.error('Merge failed:', error);
+    } finally {
+      setIsMerging(false);
+    }
+  };
+
+  const handleSelectBackupFile = async () => {
+    try {
+      const selected = await open({
+        multiple: false,
+        filters: [{
+          name: 'JSON Files',
+          extensions: ['json']
+        }]
+      });
+      if (selected && typeof selected === 'string') {
+        setMergeBackupPath(selected);
+      }
+    } catch (error) {
+      console.error('File selection failed:', error);
+    }
+  };
+
   const renderPlatformCard = (platformId: PlatformId) => {
     if (!isAccountPlatform(platformId)) {
       return null;
@@ -3537,6 +3577,10 @@ export function DashboardPage({
           <button className="header-action-btn" onClick={onOpenPlatformLayout}>
             <span>{t('platformLayout.title', '平台布局')}</span>
           </button>
+          <button className="header-action-btn" onClick={() => setMergeModalOpen(true)}>
+            <Download size={16} />
+            <span>Merge</span>
+          </button>
           <AnnouncementCenter onNavigate={onNavigate} variant="inline" trigger="button" />
         </div>
       </div>
@@ -3693,6 +3737,103 @@ export function DashboardPage({
           availableTags={dashboardAvailableTags}
           onSave={handleSaveTags}
         />
+      )}
+
+      {mergeModalOpen && (
+        <div className="modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <div className="modal-content" style={{ backgroundColor: 'white', borderRadius: '8px', padding: '24px', maxWidth: '500px', width: '90%' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 'bold' }}>Merge Backup</h3>
+              <button onClick={() => setMergeModalOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '500' }}>Select Backup File</label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  onClick={handleSelectBackupFile}
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#4f46e5',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '14px'
+                  }}
+                >
+                  Browse Files
+                </button>
+                {mergeBackupPath && (
+                  <div style={{ flex: 1, padding: '8px', backgroundColor: '#f3f4f6', borderRadius: '4px', fontSize: '12px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {mergeBackupPath.split('\\').pop()}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <button
+              onClick={handleMergeBackup}
+              disabled={!mergeBackupPath || isMerging}
+              style={{
+                width: '100%',
+                padding: '12px',
+                backgroundColor: mergeBackupPath && !isMerging ? '#10b981' : '#9ca3af',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: mergeBackupPath && !isMerging ? 'pointer' : 'not-allowed',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+            >
+              {isMerging ? 'Merging...' : 'Merge Backup'}
+            </button>
+
+            {mergeResult && (
+              <div style={{ marginTop: '16px', padding: '12px', backgroundColor: '#f9fafb', borderRadius: '4px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '12px' }}>
+                  <div style={{ textAlign: 'center', padding: '8px', backgroundColor: '#d1fae5', borderRadius: '4px' }}>
+                    <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#059669' }}>{mergeResult.merged_count}</div>
+                    <div style={{ fontSize: '12px', color: '#059669' }}>Merged</div>
+                  </div>
+                  <div style={{ textAlign: 'center', padding: '8px', backgroundColor: '#fef3c7', borderRadius: '4px' }}>
+                    <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#d97706' }}>{mergeResult.skipped_count}</div>
+                    <div style={{ fontSize: '12px', color: '#d97706' }}>Skipped</div>
+                  </div>
+                  <div style={{ textAlign: 'center', padding: '8px', backgroundColor: '#fee2e2', borderRadius: '4px' }}>
+                    <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#dc2626' }}>{mergeResult.error_count}</div>
+                    <div style={{ fontSize: '12px', color: '#dc2626' }}>Errors</div>
+                  </div>
+                </div>
+
+                {mergeResult.merged_accounts.length > 0 && (
+                  <div style={{ marginBottom: '8px' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Successfully Merged:</div>
+                    <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '12px' }}>
+                      {mergeResult.merged_accounts.map((email) => (
+                        <li key={email} style={{ color: '#059669' }}>{email}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {mergeResult.errors.length > 0 && (
+                  <div>
+                    <div style={{ fontSize: '12px', fontWeight: '500', marginBottom: '4px', color: '#dc2626' }}>Errors:</div>
+                    <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '12px' }}>
+                      {mergeResult.errors.map((error, index) => (
+                        <li key={index} style={{ color: '#dc2626' }}>{error}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
       )}
 
     </main>

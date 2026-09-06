@@ -28,7 +28,8 @@ export type Page =
   | 'wakeup'
   | 'verification'
   | '2fa'
-  | 'settings';
+  | 'settings'
+  | 'login-credential-tool';
 
 /** Pages that tray / floating-card restore may navigate to after main-window recreate. */
 export const MAIN_WINDOW_NAVIGABLE_PAGES: readonly Page[] = [
@@ -56,6 +57,7 @@ export const MAIN_WINDOW_NAVIGABLE_PAGES: readonly Page[] = [
   'trae-solo-cn',
   'workbuddy',
   'settings',
+  'login-credential-tool',
 ] as const;
 
 export function isMainWindowNavigablePage(page: string): page is Page {
