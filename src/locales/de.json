@@ -324,7 +324,8 @@
     "apiRelay": "API-Relay",
     "claude": "Claude",
     "openrouter": "OpenRouter",
-    "opencode": "OpenCode"
+    "opencode": "OpenCode",
+    "loginCredentialTool": "Anmeldedaten hinzufügen"
   },
   "sponsors": {
     "pageTitle": "Sponsoren",
@@ -2323,7 +2324,12 @@
       "summaryMeta": "{{count}} Konten · {{scope}}",
       "summaryMetaUnconfigured": "Nicht konfiguriert · {{scope}}",
       "memberTitle": "Sammlungsmitglieder",
-      "imagePolicy": { "label": "Bildrichtlinie", "inherit": "Bild: Automatisch", "enabled": "Bild: Aktiviert", "disabled": "Bild: Deaktiviert" },
+      "imagePolicy": {
+        "label": "Bildrichtlinie",
+        "inherit": "Bild: Automatisch",
+        "enabled": "Bild: Aktiviert",
+        "disabled": "Bild: Deaktiviert"
+      },
       "memberPriorityLabel": "Priorität",
       "memberPriorityLowest": "Niedrig",
       "memberPriorityNormal": "Regulär",
@@ -6293,5 +6299,31 @@
   "opencode": {
     "title": "OpenCode",
     "desc": "OpenCode Go/Zen API-Keys verwalten und nach Stufe filtern."
+  },
+  "credTool": {
+    "title": "Login_Credential_Add_Tool",
+    "subtitle": "Speichere ein benanntes Backup der Logins dieses Rechners oder führe eine Backup-Datei eines anderen PCs mit den Logins dieses Laptops zusammen (alle Dashboard-Plattformen).",
+    "backup": {
+      "title": "Benanntes Backup speichern",
+      "desc": "Exportiert alle aktuellen Konten und Einstellungen aller Plattformen in eine benannte Backup-Datei im Backup-Verzeichnis (z. B. Rajkumar_Laptop.json).",
+      "namePlaceholder": "Backup-Name, z. B. Rajkumar_Laptop",
+      "save": "Backup speichern",
+      "nameHint": "Nur Buchstaben, Ziffern, Unterstrich und Bindestrich, maximal 64 Zeichen.",
+      "saved": "Gespeichert: "
+    },
+    "merge": {
+      "title": "Logins von einem anderen Gerät zusammenführen",
+      "desc": "Wähle eine auf deinem PC exportierte Cockpit-Tools-Backup-Datei (.json). Konten aller Plattformen werden auf diesem Rechner zusammengeführt; vorhandene Konten werden nicht dupliziert.",
+      "noFile": "Keine Datei ausgewählt",
+      "pick": "Datei auswählen",
+      "run": "Jetzt zusammenführen",
+      "clear": "Leeren",
+      "emptyContent": "Bitte zuerst eine Backup-Datei auswählen",
+      "doneMsg": "Zusammenführung abgeschlossen: {{n}} Konto/Konten importiert",
+      "platforms": "Plattform(en)",
+      "failed": "fehlgeschlagen",
+      "skipped": "übersprungen",
+      "details": "Details pro Plattform anzeigen"
+    }
   }
 }

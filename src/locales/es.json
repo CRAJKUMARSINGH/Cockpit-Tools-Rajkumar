@@ -324,7 +324,8 @@
     "apiRelay": "Relé",
     "claude": "Claude",
     "openrouter": "OpenRouter",
-    "opencode": "OpenCode"
+    "opencode": "OpenCode",
+    "loginCredentialTool": "Añadir credenciales"
   },
   "sponsors": {
     "pageTitle": "Patrocinadores",
@@ -2323,7 +2324,12 @@
       "summaryMeta": "{{count}} cuentas · {{scope}}",
       "summaryMetaUnconfigured": "Sin configurar · {{scope}}",
       "memberTitle": "Miembros de la colección",
-      "imagePolicy": { "label": "Política de imágenes", "inherit": "Imagen: Automático", "enabled": "Imagen: Activada", "disabled": "Imagen: Desactivada" },
+      "imagePolicy": {
+        "label": "Política de imágenes",
+        "inherit": "Imagen: Automático",
+        "enabled": "Imagen: Activada",
+        "disabled": "Imagen: Desactivada"
+      },
       "memberPriorityLabel": "Prioridad",
       "memberPriorityLowest": "Mínima",
       "memberPriorityNormal": "Estándar",
@@ -6293,5 +6299,31 @@
   "opencode": {
     "title": "OpenCode",
     "desc": "Gestiona claves OpenCode Go/Zen y filtra por nivel."
+  },
+  "credTool": {
+    "title": "Login_Credential_Add_Tool",
+    "subtitle": "Guarda una copia de seguridad con nombre de los inicios de sesión de este equipo, o fusiona un archivo de copia de otro PC con los inicios de sesión de este portátil (todas las plataformas del panel).",
+    "backup": {
+      "title": "Guardar copia con nombre",
+      "desc": "Exporta todas las cuentas y ajustes actuales de cada plataforma a un archivo de copia con nombre en el directorio de copias (p. ej. Rajkumar_Laptop.json).",
+      "namePlaceholder": "Nombre de la copia, p. ej. Rajkumar_Laptop",
+      "save": "Guardar copia",
+      "nameHint": "Solo letras, dígitos, guion bajo y guion, hasta 64 caracteres.",
+      "saved": "Guardado: "
+    },
+    "merge": {
+      "title": "Fusionar inicios de sesión de otro dispositivo",
+      "desc": "Elige un archivo de copia de Cockpit Tools (.json) exportado en tu PC. Las cuentas de todas las plataformas se fusionarán en este equipo; las cuentas existentes no se duplican.",
+      "noFile": "Ningún archivo seleccionado",
+      "pick": "Elegir archivo",
+      "run": "Fusionar ahora",
+      "clear": "Limpiar",
+      "emptyContent": "Primero elige un archivo de copia",
+      "doneMsg": "Fusión completada: {{n}} cuenta(s) importada(s)",
+      "platforms": "plataforma(s)",
+      "failed": "fallido",
+      "skipped": "omitido",
+      "details": "Mostrar detalles por plataforma"
+    }
   }
 }

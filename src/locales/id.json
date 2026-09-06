@@ -371,7 +371,8 @@
     "apiRelay": "Relay API",
     "claude": "Claude",
     "openrouter": "OpenRouter",
-    "opencode": "OpenCode"
+    "opencode": "OpenCode",
+    "loginCredentialTool": "Tambah kredensial"
   },
   "sponsors": {
     "pageTitle": "Sponsor",
@@ -2373,7 +2374,12 @@
       "summaryMeta": "{{count}} akun · {{scope}}",
       "summaryMetaUnconfigured": "Belum dikonfigurasi · {{scope}}",
       "memberTitle": "Anggota koleksi",
-      "imagePolicy": { "label": "Kebijakan gambar", "inherit": "Gambar: Otomatis", "enabled": "Gambar: Aktif", "disabled": "Gambar: Nonaktif" },
+      "imagePolicy": {
+        "label": "Kebijakan gambar",
+        "inherit": "Gambar: Otomatis",
+        "enabled": "Gambar: Aktif",
+        "disabled": "Gambar: Nonaktif"
+      },
       "memberPriorityLabel": "Prioritas",
       "memberPriorityLowest": "Terendah",
       "memberPriorityNormal": "Biasa",
@@ -6293,5 +6299,31 @@
   "opencode": {
     "title": "OpenCode",
     "desc": "Kelola key OpenCode Go/Zen dan filter per tier."
+  },
+  "credTool": {
+    "title": "Login_Credential_Add_Tool",
+    "subtitle": "Simpan cadangan bernama dari login di mesin ini, atau gabungkan berkas cadangan dari PC lain ke login laptop ini (semua platform dasbor).",
+    "backup": {
+      "title": "Simpan cadangan bernama",
+      "desc": "Mengekspor semua akun dan pengaturan saat ini dari setiap platform ke berkas cadangan bernama di direktori cadangan (mis. Rajkumar_Laptop.json).",
+      "namePlaceholder": "Nama cadangan, mis. Rajkumar_Laptop",
+      "save": "Simpan cadangan",
+      "nameHint": "Hanya huruf, angka, garis bawah, dan tanda hubung, maks. 64 karakter.",
+      "saved": "Tersimpan: "
+    },
+    "merge": {
+      "title": "Gabungkan login dari perangkat lain",
+      "desc": "Pilih berkas cadangan Cockpit Tools (.json) yang diekspor di PC Anda. Akun dari semua platform akan digabungkan ke mesin ini; akun yang sudah ada tidak diduplikasi.",
+      "noFile": "Belum ada berkas dipilih",
+      "pick": "Pilih berkas",
+      "run": "Gabungkan sekarang",
+      "clear": "Bersihkan",
+      "emptyContent": "Silakan pilih berkas cadangan terlebih dahulu",
+      "doneMsg": "Penggabungan selesai: {{n}} akun diimpor",
+      "platforms": "platform",
+      "failed": "gagal",
+      "skipped": "dilewati",
+      "details": "Tampilkan detail per platform"
+    }
   }
 }

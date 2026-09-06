@@ -154,6 +154,7 @@ function isAllowedEnglishReuse(key, value) {
     'nav.claude',
     'nav.gemini',
     'nav.qoder',
+    'credTool.title',
   ]);
 
   if (allowedBrandKeys.has(key)) {

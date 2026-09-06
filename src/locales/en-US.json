@@ -371,7 +371,8 @@
     "2faManager": "2FA",
     "claude": "Claude",
     "openrouter": "OpenRouter",
-    "opencode": "OpenCode"
+    "opencode": "OpenCode",
+    "loginCredentialTool": "Credential Add"
   },
   "sponsors": {
     "pageTitle": "Sponsors",
@@ -2308,8 +2309,8 @@
       "modelConfigDialogDescription": "Configure visible models, reasoning levels, context windows, and compact limits for each model.",
       "applyModelConfig": "Apply settings",
       "defaultModel": "Default model",
-      "repairCompleted": "Session visibility repair completed"
-      ,"forceRefreshTitle": "Force-refresh Token",
+      "repairCompleted": "Session visibility repair completed",
+      "forceRefreshTitle": "Force-refresh Token",
       "forceRefreshReady": "OAuth tokens can be refreshed manually",
       "forceRefreshDescription": "Use refresh_token to obtain new access_token and id_token values. This may rotate the current refresh token.",
       "forceRefreshUnavailable": "Unavailable for this account type",
@@ -6298,5 +6299,31 @@
   "opencode": {
     "title": "OpenCode",
     "desc": "Manage OpenCode Go/Zen API keys and filter by tier. Keys stay in local app data."
+  },
+  "credTool": {
+    "title": "Login_Credential_Add_Tool",
+    "subtitle": "Save a named backup of this machine's logins, or merge a backup file from another PC into this laptop's logins (all dashboard platforms).",
+    "backup": {
+      "title": "Save Named Backup",
+      "desc": "Export all current accounts and settings from every platform into a named backup file in the backup directory (e.g. Rajkumar_Laptop.json).",
+      "namePlaceholder": "Backup name, e.g. Rajkumar_Laptop",
+      "save": "Save Backup",
+      "nameHint": "Letters, digits, underscore and dash only, up to 64 characters.",
+      "saved": "Saved: "
+    },
+    "merge": {
+      "title": "Merge Logins From Another Device",
+      "desc": "Pick a Cockpit Tools backup file (.json) exported on your PC. Accounts from every platform will be merged into this machine; existing accounts are not duplicated.",
+      "noFile": "No file selected",
+      "pick": "Choose File",
+      "run": "Merge Now",
+      "clear": "Clear",
+      "emptyContent": "Please choose a backup file first",
+      "doneMsg": "Merge complete: {{n}} account(s) imported",
+      "platforms": "platform(s)",
+      "failed": "failed",
+      "skipped": "skipped",
+      "details": "Show per-platform details"
+    }
   }
 }
