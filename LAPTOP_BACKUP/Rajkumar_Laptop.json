@@ -1,0 +1,839 @@
+{
+  "schema": "cockpit-tools.data-transfer",
+  "version": 1,
+  "exported_at": "2026-09-06T11:11:13.729Z",
+  "sections": {
+    "accounts": true,
+    "config": true
+  },
+  "accounts": {
+    "schema": "cockpit-tools.account-transfer",
+    "version": 1,
+    "exported_at": "2026-09-06T11:11:13.760Z",
+    "summary": {
+      "platform_count": 20,
+      "account_count": 1
+    },
+    "platforms": {
+      "claude_manager": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "codex": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "codex_api_service": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "antigravity": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "antigravity_ide": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "zed": {
+        "account_count": 1,
+        "exported_data": {
+          "version": "1.0",
+          "accounts": [
+            {
+              "id": "qa-credential-zed-001",
+              "user_id": "qa-credential-user-001",
+              "github_login": "qa-backup-merge",
+              "display_name": "QA Backup Merge (Synthetic)",
+              "created_at": 1788688000,
+              "last_used": 1788688000,
+              "access_token": "synthetic-invalid-token-not-a-real-login"
+            }
+          ]
+        }
+      },
+      "github-copilot": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "windsurf": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "kiro": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "cursor": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "grok": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "codebuddy": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "codebuddy_cn": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "qoder": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "zcode": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "trae": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "trae_solo": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "trae_cn": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "trae_solo_cn": {
+        "account_count": 0,
+        "exported_data": []
+      },
+      "workbuddy": {
+        "account_count": 0,
+        "exported_data": []
+      }
+    }
+  },
+  "config": {
+    "user_config": {
+      "ws_enabled": true,
+      "ws_port": 19528,
+      "report_enabled": false,
+      "report_port": 18081,
+      "report_token": "change-this-token",
+      "global_proxy_enabled": false,
+      "global_proxy_url": "",
+      "global_proxy_no_proxy": "127.0.0.1,localhost,::1",
+      "diagnostics_error_reporting_enabled": true,
+      "diagnostics_error_reporting_debug": false,
+      "language": "en",
+      "default_terminal": "system",
+      "theme": "system",
+      "theme_color": "default",
+      "external_network_enabled": true,
+      "webdav_allowed_domains": "",
+      "reduced_motion_enabled": false,
+      "ui_scale": 1,
+      "auto_refresh_minutes": 10,
+      "codex_auto_refresh_minutes": 10,
+      "codex_sync_wsl": false,
+      "codex_app_ui_injection_enabled": true,
+      "codex_cli_only_allow_app_server_clients": false,
+      "codex_wsl_config_dir": "",
+      "zed_auto_refresh_minutes": 10,
+      "ghcp_auto_refresh_minutes": 10,
+      "windsurf_auto_refresh_minutes": 10,
+      "kiro_auto_refresh_minutes": 10,
+      "cursor_auto_refresh_minutes": 10,
+      "grok_auto_refresh_minutes": 10,
+      "grok_sync_official_auth_on_switch": false,
+      "grok_opencode_sync_on_switch": false,
+      "grok_opencode_auth_overwrite_on_switch": false,
+      "claude_auto_refresh_minutes": 10,
+      "codebuddy_auto_refresh_minutes": 10,
+      "codebuddy_cn_auto_refresh_minutes": 10,
+      "workbuddy_auto_refresh_minutes": 10,
+      "qoder_auto_refresh_minutes": 10,
+      "zcode_auto_refresh_minutes": 10,
+      "trae_auto_refresh_minutes": 10,
+      "trae_solo_auto_refresh_minutes": 10,
+      "trae_cn_auto_refresh_minutes": 10,
+      "trae_solo_cn_auto_refresh_minutes": 10,
+      "close_behavior": "ask",
+      "minimize_behavior": "dock_and_tray",
+      "hide_dock_icon": false,
+      "tray_icon_style": "template",
+      "menu_bar_quota_enabled": false,
+      "menu_bar_show_account_prefix": true,
+      "menu_bar_quota_platform": "codex",
+      "floating_card_show_on_startup": false,
+      "startup_minimized": false,
+      "remember_main_window_state": false,
+      "startup_page": "last",
+      "floating_card_always_on_top": false,
+      "app_auto_launch_enabled": false,
+      "token_keeper_enabled": true,
+      "auto_import_from_local_enabled": false,
+      "antigravity_startup_wakeup_enabled": false,
+      "antigravity_startup_wakeup_delay_seconds": 0,
+      "codex_startup_wakeup_enabled": false,
+      "codex_startup_wakeup_delay_seconds": 0,
+      "floating_card_confirm_on_close": true,
+      "auto_backup_enabled": true,
+      "auto_backup_include_accounts": true,
+      "auto_backup_include_config": true,
+      "auto_backup_retention_days": 15,
+      "auto_backup_retention_days_migrated": true,
+      "auto_backup_last_backup_at": null,
+      "webdav_sync_enabled": true,
+      "webdav_sync_url": "https://dav.jianguoyun.com/dav/",
+      "webdav_sync_username": "",
+      "webdav_sync_remote_dir": "cockpit-tools",
+      "webdav_sync_retention_days": 15,
+      "webdav_sync_last_upload_at": null,
+      "webdav_sync_last_upload_file_name": null,
+      "webdav_sync_last_download_at": null,
+      "webdav_sync_last_download_file_name": null,
+      "floating_card_position_x": null,
+      "floating_card_position_y": null,
+      "opencode_app_path": "",
+      "antigravity_app_path": "",
+      "codex_app_path": "",
+      "codex_oauth_app_version": "",
+      "grok_cli_path": null,
+      "claude_app_path": "",
+      "claude_app_scan_roots": "",
+      "codex_specified_app_path": "",
+      "zed_app_path": "",
+      "vscode_app_path": "",
+      "windsurf_app_path": "",
+      "kiro_app_path": "",
+      "cursor_app_path": "",
+      "codebuddy_app_path": "",
+      "codebuddy_share_sessions_on_switch": false,
+      "codebuddy_cn_app_path": "",
+      "codebuddy_cn_share_sessions_on_switch": false,
+      "qoder_app_path": "",
+      "zcode_app_path": "",
+      "trae_app_path": "",
+      "trae_solo_app_path": "",
+      "trae_cn_app_path": "",
+      "trae_solo_cn_app_path": "",
+      "trae_share_sessions_on_switch": false,
+      "trae_solo_share_sessions_on_switch": false,
+      "trae_cn_share_sessions_on_switch": false,
+      "trae_solo_cn_share_sessions_on_switch": false,
+      "trae_app_scan_roots": "",
+      "trae_solo_app_scan_roots": "",
+      "trae_cn_app_scan_roots": "",
+      "trae_solo_cn_app_scan_roots": "",
+      "workbuddy_app_path": "",
+      "workbuddy_share_sessions_on_switch": true,
+      "opencode_sync_on_switch": false,
+      "opencode_auth_overwrite_on_switch": false,
+      "ghcp_opencode_sync_on_switch": false,
+      "ghcp_opencode_auth_overwrite_on_switch": false,
+      "ghcp_launch_on_switch": true,
+      "openclaw_auth_overwrite_on_switch": false,
+      "hermes_auth_overwrite_on_switch": false,
+      "codex_launch_on_switch": true,
+      "antigravity_launch_on_switch": true,
+      "codex_restart_specified_app_on_switch": false,
+      "codex_local_access_entry_visible": true,
+      "codex_hide_relay_quota": false,
+      "top_right_ad_visible": true,
+      "antigravity_dual_switch_no_restart_enabled": false,
+      "auto_switch_enabled": false,
+      "auto_switch_threshold": 5,
+      "auto_switch_credits_enabled": false,
+      "auto_switch_credits_threshold": 5,
+      "auto_switch_scope_mode": "any_group",
+      "auto_switch_selected_group_ids": [],
+      "auto_switch_account_scope_mode": "all_accounts",
+      "codex_auto_switch_enabled": false,
+      "codex_auto_switch_primary_threshold": 20,
+      "codex_auto_switch_secondary_threshold": 20,
+      "codex_auto_switch_account_scope_mode": "all_accounts",
+      "quota_alert_enabled": false,
+      "quota_alert_threshold": 20,
+      "codex_quota_alert_enabled": false,
+      "codex_quota_alert_threshold": 20,
+      "zed_quota_alert_enabled": false,
+      "zed_quota_alert_threshold": 20,
+      "codex_quota_alert_primary_threshold": 20,
+      "codex_quota_alert_secondary_threshold": 20,
+      "ghcp_quota_alert_enabled": false,
+      "ghcp_quota_alert_threshold": 20,
+      "windsurf_quota_alert_enabled": false,
+      "windsurf_quota_alert_threshold": 20,
+      "kiro_quota_alert_enabled": false,
+      "kiro_quota_alert_threshold": 20,
+      "cursor_quota_alert_enabled": false,
+      "cursor_quota_alert_threshold": 20,
+      "grok_quota_alert_enabled": false,
+      "grok_quota_alert_threshold": 20,
+      "claude_quota_alert_enabled": false,
+      "claude_quota_alert_threshold": 20,
+      "claude_quota_display_remaining": false,
+      "codebuddy_quota_alert_enabled": false,
+      "codebuddy_quota_alert_threshold": 20,
+      "codebuddy_cn_quota_alert_enabled": false,
+      "codebuddy_cn_quota_alert_threshold": 20,
+      "qoder_quota_alert_enabled": false,
+      "qoder_quota_alert_threshold": 20,
+      "trae_quota_alert_enabled": false,
+      "trae_quota_alert_threshold": 20,
+      "trae_solo_quota_alert_enabled": false,
+      "trae_solo_quota_alert_threshold": 20,
+      "trae_cn_quota_alert_enabled": false,
+      "trae_cn_quota_alert_threshold": 20,
+      "trae_solo_cn_quota_alert_enabled": false,
+      "trae_solo_cn_quota_alert_threshold": 20,
+      "workbuddy_quota_alert_enabled": false,
+      "workbuddy_quota_alert_threshold": 20,
+      "auto_switch_selected_account_refs": [],
+      "codex_auto_switch_selected_account_refs": []
+    },
+    "group_settings": {
+      "groupMappings": {
+        "gemini-3-pro-low": "g3_pro",
+        "claude-sonnet-4-5": "claude_45",
+        "claude-sonnet-4-5-thinking": "claude_45",
+        "gemini-3.1-pro-low": "g3_pro",
+        "gpt-oss-120b-medium": "claude_45",
+        "claude-sonnet-4-6": "claude_45",
+        "gemini-3-pro-high": "g3_pro",
+        "claude-opus-4-6-thinking": "claude_45",
+        "gemini-3-flash": "g3_flash",
+        "claude-opus-4-5-thinking": "claude_45",
+        "gemini-3.1-pro-high": "g3_pro"
+      },
+      "groupNames": {
+        "g3_pro": "Gemini Pro",
+        "g3_flash": "Gemini Flash",
+        "claude_45": "Claude 4.5"
+      },
+      "groupOrder": [
+        "claude_45",
+        "g3_pro",
+        "g3_flash"
+      ],
+      "updatedAt": 0,
+      "updatedBy": "desktop"
+    },
+    "account_groups": [],
+    "codex_account_groups": [],
+    "codex_model_providers": [],
+    "instance_stores": {
+      "antigravity": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "codex": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "github-copilot": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "windsurf": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "kiro": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "cursor": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "grok": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "codebuddy": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "codebuddy_cn": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "qoder": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "zcode": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "trae": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      },
+      "workbuddy": {
+        "defaultSettings": {
+          "bindAccountRef": null,
+          "extraArgs": "",
+          "launchMode": "app",
+          "followLocalAccount": true
+        },
+        "instances": []
+      }
+    },
+    "antigravity_wakeup": {
+      "enabled": false,
+      "official_ls_version_mode": "gte_1_21_6",
+      "tasks": []
+    },
+    "codex_wakeup": {
+      "enabled": false,
+      "model_presets": [
+        {
+          "id": "preset-gpt-5-6-sol",
+          "name": "GPT-5.6 Sol",
+          "model": "gpt-5.6-sol",
+          "allowed_reasoning_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ],
+          "default_reasoning_effort": "medium"
+        },
+        {
+          "id": "preset-gpt-5-6-terra",
+          "name": "GPT-5.6 Terra",
+          "model": "gpt-5.6-terra",
+          "allowed_reasoning_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ],
+          "default_reasoning_effort": "medium"
+        },
+        {
+          "id": "preset-gpt-5-6-luna",
+          "name": "GPT-5.6 Luna",
+          "model": "gpt-5.6-luna",
+          "allowed_reasoning_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ],
+          "default_reasoning_effort": "medium"
+        },
+        {
+          "id": "preset-gpt-5-5",
+          "name": "GPT-5.5",
+          "model": "gpt-5.5",
+          "allowed_reasoning_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ],
+          "default_reasoning_effort": "medium"
+        },
+        {
+          "id": "preset-gpt-5-4",
+          "name": "GPT-5.4",
+          "model": "gpt-5.4",
+          "allowed_reasoning_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ],
+          "default_reasoning_effort": "medium"
+        },
+        {
+          "id": "preset-gpt-5-4-mini",
+          "name": "GPT-5.4-Mini",
+          "model": "gpt-5.4-mini",
+          "allowed_reasoning_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ],
+          "default_reasoning_effort": "medium"
+        }
+      ],
+      "runtime": {},
+      "tasks": []
+    },
+    "current_account_refresh_minutes": {
+      "antigravity": 1,
+      "codex": 1,
+      "claude": 1,
+      "ghcp": 1,
+      "windsurf": 1,
+      "kiro": 1,
+      "cursor": 1,
+      "grok": 1,
+      "codebuddy": 1,
+      "codebuddy_cn": 1,
+      "workbuddy": 1,
+      "qoder": 1,
+      "zcode": 1,
+      "trae": 1,
+      "trae_solo": 1,
+      "trae_cn": 1,
+      "trae_solo_cn": 1,
+      "zed": 1
+    },
+    "platform_layout_config": {
+      "orderedPlatformIds": [
+        "claude_manager",
+        "codex",
+        "codex_api_service",
+        "antigravity",
+        "antigravity_ide",
+        "zed",
+        "github-copilot",
+        "windsurf",
+        "kiro",
+        "cursor",
+        "grok",
+        "codebuddy",
+        "codebuddy_cn",
+        "workbuddy",
+        "qoder",
+        "zcode",
+        "trae",
+        "trae_solo",
+        "trae_cn",
+        "trae_solo_cn"
+      ],
+      "hiddenPlatformIds": [],
+      "sidebarPlatformIds": [
+        "claude_manager",
+        "codex",
+        "antigravity_ide",
+        "zed",
+        "github-copilot",
+        "windsurf",
+        "kiro",
+        "cursor",
+        "grok",
+        "codebuddy",
+        "qoder",
+        "zcode",
+        "trae"
+      ],
+      "trayPlatformIds": [
+        "claude_manager",
+        "codex",
+        "codex_api_service",
+        "antigravity",
+        "antigravity_ide",
+        "zed",
+        "github-copilot",
+        "windsurf",
+        "kiro",
+        "cursor",
+        "grok",
+        "codebuddy",
+        "codebuddy_cn",
+        "qoder",
+        "zcode",
+        "trae",
+        "trae_solo",
+        "trae_cn",
+        "trae_solo_cn",
+        "workbuddy"
+      ],
+      "traySortMode": "auto",
+      "platformGroups": [
+        {
+          "id": "antigravity-suite",
+          "name": "Antigravity",
+          "platformIds": [
+            "antigravity",
+            "antigravity_ide"
+          ],
+          "defaultPlatformId": "antigravity_ide",
+          "iconKind": "platform",
+          "iconPlatformId": "antigravity_ide",
+          "childConfigs": [
+            {
+              "platformId": "antigravity",
+              "name": "Antigravity",
+              "iconKind": "platform",
+              "iconPlatformId": "antigravity"
+            },
+            {
+              "platformId": "antigravity_ide",
+              "name": "Antigravity IDE",
+              "iconKind": "platform",
+              "iconPlatformId": "antigravity_ide"
+            }
+          ]
+        },
+        {
+          "id": "codex-suite",
+          "name": "Codex",
+          "platformIds": [
+            "codex",
+            "codex_api_service"
+          ],
+          "defaultPlatformId": "codex",
+          "iconKind": "platform",
+          "iconPlatformId": "codex",
+          "childConfigs": []
+        },
+        {
+          "id": "codebuddy-suite",
+          "name": "CodeBuddy",
+          "platformIds": [
+            "codebuddy",
+            "codebuddy_cn",
+            "workbuddy"
+          ],
+          "defaultPlatformId": "codebuddy",
+          "iconKind": "platform",
+          "iconPlatformId": "codebuddy",
+          "childConfigs": []
+        },
+        {
+          "id": "trae-suite",
+          "name": "Trae",
+          "platformIds": [
+            "trae",
+            "trae_solo",
+            "trae_cn",
+            "trae_solo_cn"
+          ],
+          "defaultPlatformId": "trae",
+          "iconKind": "platform",
+          "iconPlatformId": "trae",
+          "childConfigs": [
+            {
+              "platformId": "trae",
+              "name": "Trae",
+              "iconKind": "platform",
+              "iconPlatformId": "trae"
+            },
+            {
+              "platformId": "trae_solo",
+              "name": "TRAE SOLO",
+              "iconKind": "platform",
+              "iconPlatformId": "trae_solo"
+            },
+            {
+              "platformId": "trae_cn",
+              "name": "Trae CN",
+              "iconKind": "platform",
+              "iconPlatformId": "trae_cn"
+            },
+            {
+              "platformId": "trae_solo_cn",
+              "name": "TRAE SOLO CN",
+              "iconKind": "platform",
+              "iconPlatformId": "trae_solo_cn"
+            }
+          ]
+        },
+        {
+          "id": "platform-claude_manager",
+          "name": "Claude",
+          "platformIds": [
+            "claude_manager"
+          ],
+          "defaultPlatformId": "claude_manager",
+          "iconKind": "platform",
+          "iconPlatformId": "claude_manager",
+          "childConfigs": []
+        },
+        {
+          "id": "platform-zed",
+          "name": "Zed",
+          "platformIds": [
+            "zed"
+          ],
+          "defaultPlatformId": "zed",
+          "iconKind": "platform",
+          "iconPlatformId": "zed",
+          "childConfigs": []
+        },
+        {
+          "id": "platform-github-copilot",
+          "name": "GitHub Copilot",
+          "platformIds": [
+            "github-copilot"
+          ],
+          "defaultPlatformId": "github-copilot",
+          "iconKind": "platform",
+          "iconPlatformId": "github-copilot",
+          "childConfigs": []
+        },
+        {
+          "id": "platform-windsurf",
+          "name": "Windsurf",
+          "platformIds": [
+            "windsurf"
+          ],
+          "defaultPlatformId": "windsurf",
+          "iconKind": "platform",
+          "iconPlatformId": "windsurf",
+          "childConfigs": []
+        },
+        {
+          "id": "platform-kiro",
+          "name": "Kiro",
+          "platformIds": [
+            "kiro"
+          ],
+          "defaultPlatformId": "kiro",
+          "iconKind": "platform",
+          "iconPlatformId": "kiro",
+          "childConfigs": []
+        },
+        {
+          "id": "platform-cursor",
+          "name": "Cursor",
+          "platformIds": [
+            "cursor"
+          ],
+          "defaultPlatformId": "cursor",
+          "iconKind": "platform",
+          "iconPlatformId": "cursor",
+          "childConfigs": []
+        },
+        {
+          "id": "platform-grok",
+          "name": "Grok CLI",
+          "platformIds": [
+            "grok"
+          ],
+          "defaultPlatformId": "grok",
+          "iconKind": "platform",
+          "iconPlatformId": "grok",
+          "childConfigs": []
+        },
+        {
+          "id": "platform-qoder",
+          "name": "Qoder",
+          "platformIds": [
+            "qoder"
+          ],
+          "defaultPlatformId": "qoder",
+          "iconKind": "platform",
+          "iconPlatformId": "qoder",
+          "childConfigs": []
+        },
+        {
+          "id": "platform-zcode",
+          "name": "ZCode",
+          "platformIds": [
+            "zcode"
+          ],
+          "defaultPlatformId": "zcode",
+          "iconKind": "platform",
+          "iconPlatformId": "zcode",
+          "childConfigs": []
+        }
+      ],
+      "orderedEntryIds": [
+        "group:platform-claude_manager",
+        "group:codex-suite",
+        "group:antigravity-suite",
+        "group:platform-zed",
+        "group:platform-github-copilot",
+        "group:platform-windsurf",
+        "group:platform-kiro",
+        "group:platform-cursor",
+        "group:platform-grok",
+        "group:codebuddy-suite",
+        "group:platform-qoder",
+        "group:platform-zcode",
+        "group:trae-suite"
+      ],
+      "hiddenEntryIds": [],
+      "sidebarEntryIds": [
+        "group:platform-claude_manager",
+        "group:codex-suite",
+        "group:antigravity-suite",
+        "group:platform-zed",
+        "group:platform-github-copilot",
+        "group:platform-windsurf",
+        "group:platform-kiro",
+        "group:platform-cursor",
+        "group:platform-grok",
+        "group:codebuddy-suite",
+        "group:platform-qoder",
+        "group:platform-zcode",
+        "group:trae-suite"
+      ],
+      "antigravityGroupFirstMigrated": true,
+      "traeSuiteDefaultGroupRestored": true,
+      "codexApiServiceSuiteMigrated": true,
+      "apiRelaySidebarVisible": true,
+      "apiRelayDashboardVisible": true,
+      "apiRelayEntryOrder": 0
+    },
+    "platform_layout_custom_icons": [],
+    "app_language": "en"
+  }
+}
