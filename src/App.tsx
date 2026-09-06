@@ -202,6 +202,8 @@ const LogViewerModal = lazy(() =>
 );
 
 const ACTIVE_PAGE_STORAGE_KEY = 'agtools.active_page';
+const ENGLISH_DEFAULT_APPLIED_KEY = 'agtools.english_default_applied';
+const DEFAULT_UI_LANGUAGE = 'en';
 const RENDERABLE_PAGE_VALUES: readonly Page[] = [
   'dashboard',
   'api-relay',
@@ -1047,7 +1049,17 @@ function MainApp() {
     const syncLanguageFromConfig = async () => {
       try {
         const config = await invoke<GeneralConfigLanguage>('get_general_config');
-        const nextLanguage = await syncLanguage(config.language);
+        let configuredLanguage = config.language;
+        if (!localStorage.getItem(ENGLISH_DEFAULT_APPLIED_KEY)) {
+          if (configuredLanguage !== DEFAULT_UI_LANGUAGE) {
+            await invoke('patch_general_config', {
+              updates: { language: DEFAULT_UI_LANGUAGE },
+            });
+            configuredLanguage = DEFAULT_UI_LANGUAGE;
+          }
+          localStorage.setItem(ENGLISH_DEFAULT_APPLIED_KEY, '1');
+        }
+        const nextLanguage = await syncLanguage(configuredLanguage);
         if (disposed) {
           return;
         }
