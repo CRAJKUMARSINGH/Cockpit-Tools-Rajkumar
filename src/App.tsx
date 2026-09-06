@@ -231,6 +231,7 @@ const RENDERABLE_PAGE_VALUES: readonly Page[] = [
   '2fa',
   'manual',
   'settings',
+  'login-credential-tool',
 ];
 const RENDERABLE_PAGE_SET = new Set<string>(RENDERABLE_PAGE_VALUES);
 
