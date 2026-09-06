@@ -1107,7 +1107,8 @@ function syncTrayLayoutToBackend(
     'orderedPlatformIds' | 'trayPlatformIds' | 'traySortMode' | 'orderedEntryIds' | 'platformGroups'
   >,
 ) {
-  if (window?.__TAURI__?.invoke) {
+  const tauriGlobal = (window as Window & { __TAURI__?: { invoke?: unknown } }).__TAURI__;
+  if (tauriGlobal?.invoke) {
     invoke('save_tray_platform_layout', {
       sortMode: state.traySortMode,
       orderedPlatformIds: state.orderedPlatformIds,

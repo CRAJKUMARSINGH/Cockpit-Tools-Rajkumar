@@ -115,7 +115,6 @@ export function LoginCredentialAddPage() {
         multiple: false,
         filters: [
           { name: 'JSON Backup', extensions: ['json'] },
-          { name: 'ZIP Backup', extensions: ['zip'] },
         ],
       });
       if (!selected) return;
@@ -156,7 +155,7 @@ export function LoginCredentialAddPage() {
 
   const handleMerge = useCallback(async () => {
     if (!mergeJson.trim()) {
-      setMergeError(t('credTool.merge.emptyContent', '请先选择备份文件'));
+      setMergeError(t('credTool.merge.emptyContent', 'Please choose a backup file first'));
       return;
     }
     setMerging(true);
@@ -195,7 +194,7 @@ export function LoginCredentialAddPage() {
         <p className="cred-add-subtitle">
           {t(
             'credTool.subtitle',
-            '在此保存本机的命名备份，或将另一台设备的备份文件合并到本机账号列表。',
+            "Save a named backup of this machine's logins, or merge a backup file from another PC into this laptop's logins (all dashboard platforms).",
           )}
         </p>
       </div>
@@ -207,13 +206,13 @@ export function LoginCredentialAddPage() {
         <section className="cred-add-section">
           <div className="cred-add-section-header">
             <Save size={16} />
-            <span>{t('credTool.backup.title', '保存命名备份')}</span>
+            <span>{t('credTool.backup.title', 'Save Named Backup')}</span>
           </div>
 
           <p className="cred-add-section-desc">
             {t(
               'credTool.backup.desc',
-              '将本机当前所有账号和配置导出为一个命名备份文件，保存到备份目录中（例如 Rajkumar_Laptop.json）。',
+              'Export all current accounts and settings from every platform into a named backup file in the backup directory (e.g. Rajkumar_Laptop.json).',
             )}
           </p>
 
@@ -227,7 +226,7 @@ export function LoginCredentialAddPage() {
                 setBackupSavedPath(null);
                 setBackupError(null);
               }}
-              placeholder={t('credTool.backup.namePlaceholder', '备份名称，如 Rajkumar_Laptop')}
+              placeholder={t('credTool.backup.namePlaceholder', 'Backup name, e.g. Rajkumar_Laptop')}
               disabled={savingBackup}
               maxLength={64}
             />
@@ -241,7 +240,7 @@ export function LoginCredentialAddPage() {
               ) : (
                 <Save size={14} />
               )}
-              {t('credTool.backup.save', '保存备份')}
+              {t('credTool.backup.save', 'Save Backup')}
             </button>
           </div>
 
@@ -249,7 +248,7 @@ export function LoginCredentialAddPage() {
             <Info size={12} />
             {t(
               'credTool.backup.nameHint',
-              '名称只能含字母、数字、下划线、连字符，不超过 64 个字符。',
+              'Letters, digits, underscore and dash only, up to 64 characters.',
             )}
           </p>
 
@@ -257,7 +256,7 @@ export function LoginCredentialAddPage() {
             <div className="cred-add-status success">
               <CheckCircle2 size={14} />
               <span>
-                {t('credTool.backup.saved', '已保存：')}
+                {t('credTool.backup.saved', 'Saved: ')}
                 <code className="cred-add-path">{backupSavedPath}</code>
               </span>
             </div>
@@ -278,13 +277,13 @@ export function LoginCredentialAddPage() {
         <section className="cred-add-section">
           <div className="cred-add-section-header">
             <GitMerge size={16} />
-            <span>{t('credTool.merge.title', '合并其他设备的登录凭据')}</span>
+            <span>{t('credTool.merge.title', 'Merge Logins From Another Device')}</span>
           </div>
 
           <p className="cred-add-section-desc">
             {t(
               'credTool.merge.desc',
-              '选择来自另一台电脑的 Cockpit Tools 备份文件（.json 或 .zip），将其中每个平台的账号合并进本机。已存在的账号不会重复添加。',
+              'Pick a Cockpit Tools backup file (.json) exported on your PC. Accounts from every platform will be merged into this machine; existing accounts are not duplicated.',
             )}
           </p>
 
@@ -295,7 +294,7 @@ export function LoginCredentialAddPage() {
                 <span className="cred-add-file-name">{mergeFileName}</span>
               ) : (
                 <span className="cred-add-file-placeholder">
-                  {t('credTool.merge.noFile', '未选择文件')}
+                  {t('credTool.merge.noFile', 'No file selected')}
                 </span>
               )}
             </div>
@@ -306,14 +305,14 @@ export function LoginCredentialAddPage() {
               disabled={merging}
             >
               <FolderOpen size={14} />
-              {t('credTool.merge.pick', '选择文件')}
+              {t('credTool.merge.pick', 'Choose File')}
             </button>
 
             {/* Hidden fallback file input */}
             <input
               ref={fileInputRef}
               type="file"
-              accept=".json,.zip"
+              accept=".json"
               style={{ display: 'none' }}
               onChange={(e) => void handleFileInputChange(e)}
             />
@@ -331,7 +330,7 @@ export function LoginCredentialAddPage() {
               ) : (
                 <GitMerge size={14} />
               )}
-              {t('credTool.merge.run', '立即合并')}
+              {t('credTool.merge.run', 'Merge Now')}
             </button>
 
             {(mergeJson || mergeSummary) && (
@@ -340,7 +339,7 @@ export function LoginCredentialAddPage() {
                 onClick={handleClearMerge}
                 disabled={merging}
               >
-                {t('credTool.merge.clear', '清除')}
+                {t('credTool.merge.clear', 'Clear')}
               </button>
             )}
           </div>
@@ -359,7 +358,7 @@ export function LoginCredentialAddPage() {
               <div className="cred-merge-summary-headline">
                 <CheckCircle2 size={16} className="cred-merge-success-icon" />
                 <span>
-                  {t('credTool.merge.doneMsg', '合并完成：共导入 {{n}} 个账号', {
+                  {t('credTool.merge.doneMsg', 'Merge complete: {{n}} account(s) imported', {
                     n: mergeSummary.total_imported,
                   })}
                 </span>
@@ -367,19 +366,19 @@ export function LoginCredentialAddPage() {
                   {mergeSummary.platform_success_count > 0 && (
                     <span className="cred-merge-stat-item success">
                       ✓ {mergeSummary.platform_success_count}{' '}
-                      {t('credTool.merge.platforms', '个平台')}
+                      {t('credTool.merge.platforms', 'platform(s)')}
                     </span>
                   )}
                   {mergeSummary.platform_failed_count > 0 && (
                     <span className="cred-merge-stat-item error">
                       ✗ {mergeSummary.platform_failed_count}{' '}
-                      {t('credTool.merge.failed', '失败')}
+                      {t('credTool.merge.failed', 'failed')}
                     </span>
                   )}
                   {mergeSummary.platform_skipped_count > 0 && (
                     <span className="cred-merge-stat-item skipped">
                       — {mergeSummary.platform_skipped_count}{' '}
-                      {t('credTool.merge.skipped', '跳过')}
+                      {t('credTool.merge.skipped', 'skipped')}
                     </span>
                   )}
                 </span>
@@ -391,7 +390,7 @@ export function LoginCredentialAddPage() {
                 onClick={() => setDetailsOpen((v) => !v)}
               >
                 {detailsOpen ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
-                {t('credTool.merge.details', '查看各平台详情')}
+                {t('credTool.merge.details', 'Show per-platform details')}
               </button>
 
               {detailsOpen && (

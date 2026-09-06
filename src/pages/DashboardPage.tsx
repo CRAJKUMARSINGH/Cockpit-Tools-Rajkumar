@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { invoke } from '@tauri-apps/api/core';
 import { open } from '@tauri-apps/plugin-dialog';
+import { readTextFile } from '@tauri-apps/plugin-fs';
+import { mergeCredentialsFromJson, type MergeCredentialsSummary } from '../services/loginCredentialAddService';
 import { useAccountStore } from '../stores/useAccountStore';
 import { useCodexAccountStore } from '../stores/useCodexAccountStore';
 import { useGitHubCopilotAccountStore } from '../stores/useGitHubCopilotAccountStore';
@@ -292,7 +293,8 @@ export function DashboardPage({
   });
   const [mergeModalOpen, setMergeModalOpen] = useState(false);
   const [mergeBackupPath, setMergeBackupPath] = useState('');
-  const [mergeResult, setMergeResult] = useState<{ merged_count: number; skipped_count: number; error_count: number; errors: string[]; merged_accounts: string[] } | null>(null);
+  const [mergeResult, setMergeResult] = useState<MergeCredentialsSummary | null>(null);
+  const [mergeError, setMergeError] = useState<string | null>(null);
   const [isMerging, setIsMerging] = useState(false);
 
   const toggleDashboardCardCollapse = useCallback((platform: keyof DashboardCardCollapseState) => {
@@ -2780,13 +2782,32 @@ export function DashboardPage({
       return;
     }
     setIsMerging(true);
+    setMergeResult(null);
+    setMergeError(null);
     try {
-      const result = await invoke<{ merged_count: number; skipped_count: number; error_count: number; errors: string[]; merged_accounts: string[] }>('merge_backup_from_file', { backupPath: mergeBackupPath });
+      const content = await readTextFile(mergeBackupPath);
+      const result = await mergeCredentialsFromJson(content);
       setMergeResult(result);
-      // Refresh accounts after merge
-      await fetchAgAccounts();
+      await Promise.allSettled([
+        fetchAgAccounts(),
+        fetchCodexAccounts(),
+        fetchClaudeAccounts(),
+        fetchZedAccounts(),
+        fetchGitHubCopilotAccounts(),
+        fetchWindsurfAccounts(),
+        fetchKiroAccounts(),
+        fetchCursorAccounts(),
+        fetchGrokAccounts(),
+        fetchCodebuddyAccounts(),
+        fetchCodebuddyCnAccounts(),
+        fetchQoderAccounts(),
+        fetchZcodeAccounts(),
+        fetchTraeAccounts(),
+        fetchWorkbuddyAccounts(),
+      ]);
     } catch (error) {
       console.error('Merge failed:', error);
+      setMergeError(String(error));
     } finally {
       setIsMerging(false);
     }
@@ -2803,6 +2824,8 @@ export function DashboardPage({
       });
       if (selected && typeof selected === 'string') {
         setMergeBackupPath(selected);
+        setMergeResult(null);
+        setMergeError(null);
       }
     } catch (error) {
       console.error('File selection failed:', error);
@@ -3768,7 +3791,7 @@ export function DashboardPage({
                 </button>
                 {mergeBackupPath && (
                   <div style={{ flex: 1, padding: '8px', backgroundColor: '#f3f4f6', borderRadius: '4px', fontSize: '12px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {mergeBackupPath.split('\\').pop()}
+                    {mergeBackupPath.split(/[\\/]/).pop()}
                   </div>
                 )}
               </div>
@@ -3789,43 +3812,49 @@ export function DashboardPage({
                 fontWeight: '500'
               }}
             >
-              {isMerging ? 'Merging...' : 'Merge Backup'}
+              {isMerging ? 'Merging...' : 'Merge All Platforms'}
             </button>
+
+            {mergeError && (
+              <div style={{ marginTop: '12px', padding: '8px', backgroundColor: '#fee2e2', borderRadius: '4px', fontSize: '12px', color: '#dc2626' }}>
+                {mergeError}
+              </div>
+            )}
 
             {mergeResult && (
               <div style={{ marginTop: '16px', padding: '12px', backgroundColor: '#f9fafb', borderRadius: '4px' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '12px' }}>
                   <div style={{ textAlign: 'center', padding: '8px', backgroundColor: '#d1fae5', borderRadius: '4px' }}>
-                    <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#059669' }}>{mergeResult.merged_count}</div>
-                    <div style={{ fontSize: '12px', color: '#059669' }}>Merged</div>
+                    <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#059669' }}>{mergeResult.total_imported}</div>
+                    <div style={{ fontSize: '12px', color: '#059669' }}>Accounts Merged</div>
                   </div>
                   <div style={{ textAlign: 'center', padding: '8px', backgroundColor: '#fef3c7', borderRadius: '4px' }}>
-                    <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#d97706' }}>{mergeResult.skipped_count}</div>
-                    <div style={{ fontSize: '12px', color: '#d97706' }}>Skipped</div>
+                    <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#d97706' }}>{mergeResult.platform_skipped_count}</div>
+                    <div style={{ fontSize: '12px', color: '#d97706' }}>Platforms Skipped</div>
                   </div>
                   <div style={{ textAlign: 'center', padding: '8px', backgroundColor: '#fee2e2', borderRadius: '4px' }}>
-                    <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#dc2626' }}>{mergeResult.error_count}</div>
-                    <div style={{ fontSize: '12px', color: '#dc2626' }}>Errors</div>
+                    <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#dc2626' }}>{mergeResult.platform_failed_count}</div>
+                    <div style={{ fontSize: '12px', color: '#dc2626' }}>Platforms Failed</div>
                   </div>
                 </div>
 
-                {mergeResult.merged_accounts.length > 0 && (
+                {mergeResult.results.some((r) => r.imported > 0) && (
                   <div style={{ marginBottom: '8px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Successfully Merged:</div>
+                    <div style={{ fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Merged per platform:</div>
                     <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '12px' }}>
-                      {mergeResult.merged_accounts.map((email) => (
-                        <li key={email} style={{ color: '#059669' }}>{email}</li>
+                      {mergeResult.results.filter((r) => r.imported > 0).map((r) => (
+                        <li key={r.platform} style={{ color: '#059669' }}>{r.platform}: +{r.imported}</li>
                       ))}
                     </ul>
                   </div>
                 )}
 
-                {mergeResult.errors.length > 0 && (
+                {mergeResult.results.some((r) => r.error != null) && (
                   <div>
                     <div style={{ fontSize: '12px', fontWeight: '500', marginBottom: '4px', color: '#dc2626' }}>Errors:</div>
                     <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '12px' }}>
-                      {mergeResult.errors.map((error, index) => (
-                        <li key={index} style={{ color: '#dc2626' }}>{error}</li>
+                      {mergeResult.results.filter((r) => r.error != null).map((r) => (
+                        <li key={r.platform} style={{ color: '#dc2626' }}>{r.platform}: {r.error}</li>
                       ))}
                     </ul>
                   </div>

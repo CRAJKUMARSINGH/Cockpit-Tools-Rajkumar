@@ -1047,7 +1047,7 @@ pub fn save_named_backup(name: String, content: String) -> Result<String, String
 /// 账号重复时 upsert 函数会保留最新的，不会创建完全重复条目。
 /// 返回每个平台的导入数量汇总。
 #[tauri::command]
-pub fn merge_credentials_from_json(
+pub async fn merge_credentials_from_json(
     content: String,
 ) -> Result<Vec<CredentialMergePlatformResult>, String> {
     use serde_json::Value;
@@ -1091,7 +1091,7 @@ pub fn merge_credentials_from_json(
         let accounts_json = serde_json::to_string(raw_accounts)
             .map_err(|e| format!("序列化平台 {} 账号失败: {}", platform_id, e))?;
 
-        let (imported, error) = match_platform_import(platform_id, &accounts_json);
+        let (imported, error) = match_platform_import(platform_id, &accounts_json).await;
 
         crate::modules::logger::log_info(&format!(
             "[CredentialMerge] platform={}, imported={}, error={:?}",
@@ -1110,14 +1110,15 @@ pub fn merge_credentials_from_json(
 
 /// Per-platform import dispatch.  Each arm calls the existing `import_from_json` function
 /// that already handles deduplication via upsert logic.
-fn match_platform_import(platform_id: &str, accounts_json: &str) -> (usize, Option<String>) {
+async fn match_platform_import(platform_id: &str, accounts_json: &str) -> (usize, Option<String>) {
     use crate::modules::{
-        account as antigravity_account,
+        claude_account,
         codebuddy_account,
         codebuddy_cn_account,
         codex_account,
         cursor_account,
         github_copilot_account,
+        grok_account,
         kiro_account,
         qoder_account,
         trae_account,
@@ -1127,13 +1128,17 @@ fn match_platform_import(platform_id: &str, accounts_json: &str) -> (usize, Opti
         zed_account,
     };
 
+    fn summarize<T>(result: Result<Vec<T>, String>) -> (usize, Option<String>) {
+        match result {
+            Ok(list) => (list.len(), None),
+            Err(e) => (0, Some(e)),
+        }
+    }
+
     macro_rules! try_import {
-        ($import_fn:expr) => {{
-            match $import_fn(accounts_json) {
-                Ok(list) => (list.len(), None),
-                Err(e) => (0, Some(e)),
-            }
-        }};
+        ($import_fn:expr) => {
+            summarize($import_fn(accounts_json))
+        };
     }
 
     match platform_id {
@@ -1142,12 +1147,14 @@ fn match_platform_import(platform_id: &str, accounts_json: &str) -> (usize, Opti
         }
         "kiro" => try_import!(kiro_account::import_from_json),
         "windsurf" => try_import!(windsurf_account::import_from_json),
-        "antigravity" | "antigravity_ide" => {
-            try_import!(antigravity_account::import_from_json)
-        }
-        "codex" => try_import!(codex_account::import_from_json),
+        "antigravity" | "antigravity_ide" => summarize(
+            crate::modules::import::import_from_json_logic(accounts_json.to_string()).await,
+        ),
+        "codex" => summarize(codex_account::import_from_json(accounts_json).await),
         "github-copilot" => try_import!(github_copilot_account::import_from_json),
         "cursor" => try_import!(cursor_account::import_from_json),
+        "grok" => try_import!(grok_account::import_from_json),
+        "claude_manager" | "claude" => try_import!(claude_account::import_from_json),
         "zed" => try_import!(zed_account::import_from_json),
         "codebuddy" => try_import!(codebuddy_account::import_from_json),
         "codebuddy_cn" => try_import!(codebuddy_cn_account::import_from_json),

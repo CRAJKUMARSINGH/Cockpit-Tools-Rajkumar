@@ -371,7 +371,8 @@
     "2faManager": "2FA 管理",
     "claude": "Claude",
     "openrouter": "OpenRouter",
-    "opencode": "OpenCode"
+    "opencode": "OpenCode",
+    "loginCredentialTool": "凭据合并"
   },
   "sponsors": {
     "pageTitle": "赞助商",
@@ -2308,8 +2309,8 @@
       "modelConfigDialogDescription": "为每个模型配置可见性、推理强度、上下文窗口和压缩阈值。",
       "applyModelConfig": "应用配置",
       "defaultModel": "默认模型",
-      "repairCompleted": "会话可见性修复完成"
-      ,"forceRefreshTitle": "强制刷新 Token",
+      "repairCompleted": "会话可见性修复完成",
+      "forceRefreshTitle": "强制刷新 Token",
       "forceRefreshReady": "可手动刷新 OAuth Token",
       "forceRefreshDescription": "使用 refresh_token 获取新的 access_token 和 id_token；当前 refresh_token 可能会被轮换。",
       "forceRefreshUnavailable": "当前账号类型不可用",
@@ -6298,5 +6299,31 @@
   "opencode": {
     "title": "OpenCode",
     "desc": "管理 OpenCode Go / Zen 档 API Key，并按档位筛选列表。密钥保存在本机应用数据目录。"
+  },
+  "credTool": {
+    "title": "Login_Credential_Add_Tool",
+    "subtitle": "在此保存本机的命名备份，或将另一台设备的备份文件合并到本机账号列表。",
+    "backup": {
+      "title": "保存命名备份",
+      "desc": "将本机当前所有账号和配置导出为一个命名备份文件，保存到备份目录中（例如 Rajkumar_Laptop.json）。",
+      "namePlaceholder": "备份名称，如 Rajkumar_Laptop",
+      "save": "保存备份",
+      "nameHint": "名称只能含字母、数字、下划线、连字符，不超过 64 个字符。",
+      "saved": "已保存："
+    },
+    "merge": {
+      "title": "合并其他设备的登录凭据",
+      "desc": "选择来自另一台电脑的 Cockpit Tools 备份文件（.json），将其中每个平台的账号合并进本机。已存在的账号不会重复添加。",
+      "noFile": "未选择文件",
+      "pick": "选择文件",
+      "run": "立即合并",
+      "clear": "清除",
+      "emptyContent": "请先选择备份文件",
+      "doneMsg": "合并完成：共导入 {{n}} 个账号",
+      "platforms": "个平台",
+      "failed": "失败",
+      "skipped": "跳过",
+      "details": "查看各平台详情"
+    }
   }
 }
