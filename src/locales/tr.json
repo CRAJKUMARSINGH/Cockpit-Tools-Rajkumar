@@ -324,7 +324,8 @@
     "apiRelay": "Aktarım",
     "claude": "Claude",
     "openrouter": "OpenRouter",
-    "opencode": "OpenCode"
+    "opencode": "OpenCode",
+    "loginCredentialTool": "Kimlik bilgisi ekle"
   },
   "sponsors": {
     "pageTitle": "Sponsorlar",
@@ -2323,7 +2324,12 @@
       "summaryMeta": "{{count}} hesap · {{scope}}",
       "summaryMetaUnconfigured": "Yapılandırılmadı · {{scope}}",
       "memberTitle": "Koleksiyon üyeleri",
-      "imagePolicy": { "label": "Görsel politikası", "inherit": "Görsel: Otomatik", "enabled": "Görsel: Açık", "disabled": "Görsel: Kapalı" },
+      "imagePolicy": {
+        "label": "Görsel politikası",
+        "inherit": "Görsel: Otomatik",
+        "enabled": "Görsel: Açık",
+        "disabled": "Görsel: Kapalı"
+      },
       "memberPriorityLabel": "Öncelik",
       "memberPriorityLowest": "En düşük",
       "memberPriorityNormal": "Olağan",
@@ -6293,5 +6299,31 @@
   "opencode": {
     "title": "OpenCode",
     "desc": "OpenCode Go/Zen anahtarlarını yönetin ve kademeye göre süzün."
+  },
+  "credTool": {
+    "title": "Login_Credential_Add_Tool",
+    "subtitle": "Bu makinedeki oturumların adlandırılmış bir yedeğini kaydedin veya başka bir PC'den gelen yedek dosyasını bu dizüstünün oturumlarıyla birleştirin (tüm panel platformları).",
+    "backup": {
+      "title": "Adlandırılmış yedek kaydet",
+      "desc": "Tüm platformlardaki mevcut hesapları ve ayarları yedek dizinindeki adlandırılmış bir yedek dosyasına aktarır (örn. Rajkumar_Laptop.json).",
+      "namePlaceholder": "Yedek adı, örn. Rajkumar_Laptop",
+      "save": "Yedeği kaydet",
+      "nameHint": "Yalnızca harf, rakam, alt çizgi ve tire; en fazla 64 karakter.",
+      "saved": "Kaydedildi: "
+    },
+    "merge": {
+      "title": "Başka bir cihazdan oturumları birleştir",
+      "desc": "PC'nizde dışa aktarılan bir Cockpit Tools yedek dosyası (.json) seçin. Tüm platformlardaki hesaplar bu makinede birleştirilir; mevcut hesaplar yinelenmez.",
+      "noFile": "Dosya seçilmedi",
+      "pick": "Dosya seç",
+      "run": "Şimdi birleştir",
+      "clear": "Temizle",
+      "emptyContent": "Lütfen önce bir yedek dosyası seçin",
+      "doneMsg": "Birleştirme tamamlandı: {{n}} hesap aktarıldı",
+      "platforms": "platform",
+      "failed": "başarısız",
+      "skipped": "atlandı",
+      "details": "Platforma göre ayrıntıları göster"
+    }
   }
 }

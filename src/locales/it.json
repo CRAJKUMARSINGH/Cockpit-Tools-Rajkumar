@@ -324,7 +324,8 @@
     "apiRelay": "Relay API",
     "claude": "Claude",
     "openrouter": "OpenRouter",
-    "opencode": "OpenCode"
+    "opencode": "OpenCode",
+    "loginCredentialTool": "Aggiungi credenziali"
   },
   "sponsors": {
     "pageTitle": "Sponsor",
@@ -2323,7 +2324,12 @@
       "summaryMeta": "{{count}} account · {{scope}}",
       "summaryMetaUnconfigured": "Non configurato · {{scope}}",
       "memberTitle": "Membri della raccolta",
-      "imagePolicy": { "label": "Politica immagini", "inherit": "Immagine: Automatica", "enabled": "Immagine: Attiva", "disabled": "Immagine: Disattiva" },
+      "imagePolicy": {
+        "label": "Politica immagini",
+        "inherit": "Immagine: Automatica",
+        "enabled": "Immagine: Attiva",
+        "disabled": "Immagine: Disattiva"
+      },
       "memberPriorityLabel": "Priorità",
       "memberPriorityLowest": "Minima",
       "memberPriorityNormal": "Normale",
@@ -6293,5 +6299,31 @@
   "opencode": {
     "title": "OpenCode",
     "desc": "Gestisci chiavi OpenCode Go/Zen e filtra per tier."
+  },
+  "credTool": {
+    "title": "Login_Credential_Add_Tool",
+    "subtitle": "Salva un backup con nome degli accessi di questo computer, oppure unisci un file di backup di un altro PC agli accessi di questo laptop (tutte le piattaforme della dashboard).",
+    "backup": {
+      "title": "Salva backup con nome",
+      "desc": "Esporta tutti gli account e le impostazioni correnti di ogni piattaforma in un file di backup con nome nella cartella di backup (es. Rajkumar_Laptop.json).",
+      "namePlaceholder": "Nome del backup, es. Rajkumar_Laptop",
+      "save": "Salva backup",
+      "nameHint": "Solo lettere, cifre, trattino basso e trattino, massimo 64 caratteri.",
+      "saved": "Salvato: "
+    },
+    "merge": {
+      "title": "Unisci accessi da un altro dispositivo",
+      "desc": "Scegli un file di backup di Cockpit Tools (.json) esportato dal tuo PC. Gli account di tutte le piattaforme verranno uniti su questo computer; gli account esistenti non vengono duplicati.",
+      "noFile": "Nessun file selezionato",
+      "pick": "Scegli file",
+      "run": "Unisci ora",
+      "clear": "Svuota",
+      "emptyContent": "Scegli prima un file di backup",
+      "doneMsg": "Unione completata: {{n}} account importati",
+      "platforms": "piattaforma/e",
+      "failed": "falliti",
+      "skipped": "saltati",
+      "details": "Mostra dettagli per piattaforma"
+    }
   }
 }

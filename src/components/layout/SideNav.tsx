@@ -1033,11 +1033,11 @@ export function SideNav({
           <button
             className={`nav-item ${page === 'login-credential-tool' && !shouldLockActiveOnMore ? 'active' : ''}`}
             onClick={() => setPage('login-credential-tool')}
-            title="Login_Credential_Add_Tool"
+            title={t('credTool.title', 'Login_Credential_Add_Tool')}
           >
             <GitMerge size={isClassicLayout ? classicMainIconSize : 20} />
             {showClassicLabels ? (
-              <span className="nav-item-text">Credential Add</span>
+              <span className="nav-item-text">{t('nav.loginCredentialTool', 'Credential Add')}</span>
             ) : null}
           </button>
         </div>
@@ -1057,10 +1057,10 @@ export function SideNav({
             <button
               className={`nav-item ${page === 'login-credential-tool' && !shouldLockActiveOnMore ? 'active' : ''}`}
               onClick={() => setPage('login-credential-tool')}
-              title="Login_Credential_Add_Tool"
+              title={t('credTool.title', 'Login_Credential_Add_Tool')}
             >
               <GitMerge size={20} />
-              <span className="tooltip">Credential Add</span>
+              <span className="tooltip">{t('nav.loginCredentialTool', 'Credential Add')}</span>
             </button>
           </div>
 

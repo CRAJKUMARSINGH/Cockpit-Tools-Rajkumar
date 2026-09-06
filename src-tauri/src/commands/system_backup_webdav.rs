@@ -990,18 +990,18 @@ pub fn save_named_backup(name: String, content: String) -> Result<String, String
     // Validate name: alphanumeric, underscores, dashes only — no path chars.
     let name = name.trim().to_string();
     if name.is_empty() {
-        return Err("备份名称不能为空".to_string());
+        return Err("Backup name cannot be empty".to_string());
     }
     let safe = name
         .chars()
         .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-');
     if !safe {
         return Err(
-            "备份名称只能包含字母、数字、下划线或连字符（例如 Rajkumar_Laptop）".to_string(),
+            "Backup name may only contain letters, digits, underscores or dashes (e.g. Rajkumar_Laptop)".to_string(),
         );
     }
     if name.len() > 64 {
-        return Err("备份名称不能超过 64 个字符".to_string());
+        return Err("Backup name cannot exceed 64 characters".to_string());
     }
 
     modules::backup_storage::ensure_backup_write_available()?;
@@ -1010,7 +1010,7 @@ pub fn save_named_backup(name: String, content: String) -> Result<String, String
     let path = dir.join(&file_name);
 
     crate::modules::atomic_write::write_string_atomic(&path, &content)
-        .map_err(|err| format!("写入命名备份失败: {}", err))?;
+        .map_err(|err| format!("Failed to write named backup: {}", err))?;
 
     // Build companion zip (same mechanism as auto-backup)
     if let Some(archive_name) = auto_backup_archive_file_name(&file_name) {
@@ -1047,13 +1047,13 @@ pub fn save_named_backup(name: String, content: String) -> Result<String, String
 /// 账号重复时 upsert 函数会保留最新的，不会创建完全重复条目。
 /// 返回每个平台的导入数量汇总。
 #[tauri::command]
-pub fn merge_credentials_from_json(
+pub async fn merge_credentials_from_json(
     content: String,
 ) -> Result<Vec<CredentialMergePlatformResult>, String> {
     use serde_json::Value;
 
     let root: Value = serde_json::from_str(&content)
-        .map_err(|e| format!("无法解析备份 JSON: {}", e))?;
+        .map_err(|e| format!("Cannot parse backup JSON: {}", e))?;
 
     // Accept either the full DataTransferBundle or a standalone AccountTransferBundle.
     // Both wrap platforms under `.accounts.platforms` or `.platforms`.
@@ -1061,11 +1061,11 @@ pub fn merge_credentials_from_json(
         .get("accounts")
         .and_then(|a| a.get("platforms"))
         .or_else(|| root.get("platforms"))
-        .ok_or_else(|| "备份 JSON 中未找到 platforms 字段，请确认文件格式正确".to_string())?;
+        .ok_or_else(|| "No 'platforms' field found in backup JSON; please check the file format".to_string())?;
 
     let platforms_obj = platforms_value
         .as_object()
-        .ok_or_else(|| "platforms 字段格式错误".to_string())?;
+        .ok_or_else(|| "'platforms' field has an invalid format".to_string())?;
 
     let mut results: Vec<CredentialMergePlatformResult> = Vec::new();
 
@@ -1089,9 +1089,9 @@ pub fn merge_credentials_from_json(
         }
 
         let accounts_json = serde_json::to_string(raw_accounts)
-            .map_err(|e| format!("序列化平台 {} 账号失败: {}", platform_id, e))?;
+            .map_err(|e| format!("Failed to serialize accounts for platform {}: {}", platform_id, e))?;
 
-        let (imported, error) = match_platform_import(platform_id, &accounts_json);
+        let (imported, error) = match_platform_import(platform_id, &accounts_json).await;
 
         crate::modules::logger::log_info(&format!(
             "[CredentialMerge] platform={}, imported={}, error={:?}",
@@ -1110,14 +1110,15 @@ pub fn merge_credentials_from_json(
 
 /// Per-platform import dispatch.  Each arm calls the existing `import_from_json` function
 /// that already handles deduplication via upsert logic.
-fn match_platform_import(platform_id: &str, accounts_json: &str) -> (usize, Option<String>) {
+async fn match_platform_import(platform_id: &str, accounts_json: &str) -> (usize, Option<String>) {
     use crate::modules::{
-        account as antigravity_account,
+        claude_account,
         codebuddy_account,
         codebuddy_cn_account,
         codex_account,
         cursor_account,
         github_copilot_account,
+        grok_account,
         kiro_account,
         qoder_account,
         trae_account,
@@ -1127,13 +1128,17 @@ fn match_platform_import(platform_id: &str, accounts_json: &str) -> (usize, Opti
         zed_account,
     };
 
+    fn summarize<T>(result: Result<Vec<T>, String>) -> (usize, Option<String>) {
+        match result {
+            Ok(list) => (list.len(), None),
+            Err(e) => (0, Some(e)),
+        }
+    }
+
     macro_rules! try_import {
-        ($import_fn:expr) => {{
-            match $import_fn(accounts_json) {
-                Ok(list) => (list.len(), None),
-                Err(e) => (0, Some(e)),
-            }
-        }};
+        ($import_fn:expr) => {
+            summarize($import_fn(accounts_json))
+        };
     }
 
     match platform_id {
@@ -1142,12 +1147,14 @@ fn match_platform_import(platform_id: &str, accounts_json: &str) -> (usize, Opti
         }
         "kiro" => try_import!(kiro_account::import_from_json),
         "windsurf" => try_import!(windsurf_account::import_from_json),
-        "antigravity" | "antigravity_ide" => {
-            try_import!(antigravity_account::import_from_json)
-        }
-        "codex" => try_import!(codex_account::import_from_json),
+        "antigravity" | "antigravity_ide" => summarize(
+            crate::modules::import::import_from_json_logic(accounts_json.to_string()).await,
+        ),
+        "codex" => summarize(codex_account::import_from_json(accounts_json).await),
         "github-copilot" => try_import!(github_copilot_account::import_from_json),
         "cursor" => try_import!(cursor_account::import_from_json),
+        "grok" => try_import!(grok_account::import_from_json),
+        "claude_manager" | "claude" => try_import!(claude_account::import_from_json),
         "zed" => try_import!(zed_account::import_from_json),
         "codebuddy" => try_import!(codebuddy_account::import_from_json),
         "codebuddy_cn" => try_import!(codebuddy_cn_account::import_from_json),
@@ -1156,7 +1163,7 @@ fn match_platform_import(platform_id: &str, accounts_json: &str) -> (usize, Opti
         "workbuddy" => try_import!(workbuddy_account::import_from_json),
         other => (
             0,
-            Some(format!("平台 '{}' 暂不支持自动合并，请手动导入", other)),
+            Some(format!("Platform '{}' does not support automatic merge; please import it manually", other)),
         ),
     }
 }

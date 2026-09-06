@@ -324,7 +324,8 @@
     "apiRelay": "中轉站",
     "claude": "Claude",
     "openrouter": "OpenRouter",
-    "opencode": "OpenCode"
+    "opencode": "OpenCode",
+    "loginCredentialTool": "新增登入憑證"
   },
   "sponsors": {
     "pageTitle": "贊助商",
@@ -2323,7 +2324,12 @@
       "summaryMeta": "{{count}} 個帳號 · {{scope}}",
       "summaryMetaUnconfigured": "未設定 · {{scope}}",
       "memberTitle": "集合成員",
-      "imagePolicy": { "label": "生圖策略", "inherit": "生圖：自動", "enabled": "生圖：啟用", "disabled": "生圖：停用" },
+      "imagePolicy": {
+        "label": "生圖策略",
+        "inherit": "生圖：自動",
+        "enabled": "生圖：啟用",
+        "disabled": "生圖：停用"
+      },
       "memberPriorityLabel": "優先級",
       "memberPriorityLowest": "最低",
       "memberPriorityNormal": "一般",
@@ -6293,5 +6299,31 @@
   "opencode": {
     "title": "OpenCode",
     "desc": "管理 OpenCode Go / Zen 檔 API Key，並按檔位篩選列表。金鑰保存在本機應用資料目錄。"
+  },
+  "credTool": {
+    "title": "Login_Credential_Add_Tool",
+    "subtitle": "將本機的登入儲存為命名備份，或將另一台電腦的備份檔合併到此筆電的登入中（儀表板所有平台）。",
+    "backup": {
+      "title": "儲存命名備份",
+      "desc": "將所有平台目前的帳號與設定匯出為備份目錄中的命名備份檔（例如 Rajkumar_Laptop.json）。",
+      "namePlaceholder": "備份名稱，例如 Rajkumar_Laptop",
+      "save": "儲存備份",
+      "nameHint": "僅限字母、數字、底線與連字號，最多 64 個字元。",
+      "saved": "已儲存："
+    },
+    "merge": {
+      "title": "合併其他裝置的登入",
+      "desc": "選擇在您電腦上匯出的 Cockpit Tools 備份檔（.json）。所有平台的帳號將合併到本機；現有帳號不會重複。",
+      "noFile": "未選擇檔案",
+      "pick": "選擇檔案",
+      "run": "立即合併",
+      "clear": "清除",
+      "emptyContent": "請先選擇備份檔",
+      "doneMsg": "合併完成：已匯入 {{n}} 個帳號",
+      "platforms": "個平台",
+      "failed": "失敗",
+      "skipped": "略過",
+      "details": "顯示各平台詳細資訊"
+    }
   }
 }

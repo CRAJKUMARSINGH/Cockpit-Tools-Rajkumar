@@ -19,7 +19,6 @@ pub mod grok;
 pub mod grok_instance;
 pub mod group;
 pub mod import;
-pub mod account_merge;
 pub mod instance;
 pub mod kiro;
 pub mod kiro_instance;

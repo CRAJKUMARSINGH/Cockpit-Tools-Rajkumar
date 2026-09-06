@@ -371,7 +371,8 @@
     "apiRelay": "الترحيل",
     "claude": "Claude",
     "openrouter": "OpenRouter",
-    "opencode": "OpenCode"
+    "opencode": "OpenCode",
+    "loginCredentialTool": "إضافة بيانات الدخول"
   },
   "sponsors": {
     "pageTitle": "الرعاة",
@@ -2370,7 +2371,12 @@
       "summaryMeta": "{{count}} حسابًا · {{scope}}",
       "summaryMetaUnconfigured": "غير مهيأ · {{scope}}",
       "memberTitle": "أعضاء المجموعة",
-      "imagePolicy": { "label": "سياسة الصور", "inherit": "الصور: تلقائي", "enabled": "الصور: مفعّلة", "disabled": "الصور: معطّلة" },
+      "imagePolicy": {
+        "label": "سياسة الصور",
+        "inherit": "الصور: تلقائي",
+        "enabled": "الصور: مفعّلة",
+        "disabled": "الصور: معطّلة"
+      },
       "memberPriorityLabel": "الأولوية",
       "memberPriorityLowest": "الأدنى",
       "memberPriorityNormal": "عادية",
@@ -6293,5 +6299,31 @@
   "opencode": {
     "title": "OpenCode",
     "desc": "إدارة مفاتيح OpenCode Go/Zen والتصفية حسب المستوى."
+  },
+  "credTool": {
+    "title": "Login_Credential_Add_Tool",
+    "subtitle": "احفظ نسخة احتياطية مسماة لتسجيلات الدخول على هذا الجهاز، أو ادمج ملف نسخة احتياطية من حاسوب آخر مع تسجيلات الدخول على هذا الحاسوب المحمول (جميع منصات لوحة التحكم).",
+    "backup": {
+      "title": "حفظ نسخة احتياطية مسماة",
+      "desc": "تصدير جميع الحسابات والإعدادات الحالية من كل منصة إلى ملف نسخة احتياطية مسمى في مجلد النسخ الاحتياطي (مثل Rajkumar_Laptop.json).",
+      "namePlaceholder": "اسم النسخة الاحتياطية، مثل Rajkumar_Laptop",
+      "save": "حفظ النسخة الاحتياطية",
+      "nameHint": "أحرف وأرقام وشرطة سفلية وشرطة فقط، بحد أقصى 64 حرفًا.",
+      "saved": "تم الحفظ: "
+    },
+    "merge": {
+      "title": "دمج تسجيلات الدخول من جهاز آخر",
+      "desc": "اختر ملف نسخة احتياطية من Cockpit Tools (.json) تم تصديره على حاسوبك. سيتم دمج حسابات جميع المنصات في هذا الجهاز؛ ولن تتكرر الحسابات الموجودة.",
+      "noFile": "لم يتم اختيار ملف",
+      "pick": "اختيار ملف",
+      "run": "دمج الآن",
+      "clear": "مسح",
+      "emptyContent": "يرجى اختيار ملف نسخة احتياطية أولاً",
+      "doneMsg": "اكتمل الدمج: تم استيراد {{n}} حساب/حسابات",
+      "platforms": "منصة/منصات",
+      "failed": "فشل",
+      "skipped": "تم التخطي",
+      "details": "عرض التفاصيل حسب المنصة"
+    }
   }
 }

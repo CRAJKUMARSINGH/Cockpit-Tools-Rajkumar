@@ -324,7 +324,8 @@
     "apiRelay": "Relay API",
     "claude": "Claude",
     "openrouter": "OpenRouter",
-    "opencode": "OpenCode"
+    "opencode": "OpenCode",
+    "loginCredentialTool": "Dodaj dane logowania"
   },
   "sponsors": {
     "pageTitle": "Sponsorzy",
@@ -2323,7 +2324,12 @@
       "summaryMeta": "{{count}} kont · {{scope}}",
       "summaryMetaUnconfigured": "Nie skonfigurowano · {{scope}}",
       "memberTitle": "Członkowie kolekcji",
-      "imagePolicy": { "label": "Zasady obrazów", "inherit": "Obraz: Automatycznie", "enabled": "Obraz: Włączony", "disabled": "Obraz: Wyłączony" },
+      "imagePolicy": {
+        "label": "Zasady obrazów",
+        "inherit": "Obraz: Automatycznie",
+        "enabled": "Obraz: Włączony",
+        "disabled": "Obraz: Wyłączony"
+      },
       "memberPriorityLabel": "Priorytet",
       "memberPriorityLowest": "Najniższy",
       "memberPriorityNormal": "Normalny",
@@ -6293,5 +6299,31 @@
   "opencode": {
     "title": "OpenCode",
     "desc": "Zarządzaj kluczami OpenCode Go/Zen i filtruj po tier."
+  },
+  "credTool": {
+    "title": "Login_Credential_Add_Tool",
+    "subtitle": "Zapisz nazwaną kopię zapasową loginów tego komputera lub scal plik kopii z innego PC z loginami tego laptopa (wszystkie platformy pulpitu).",
+    "backup": {
+      "title": "Zapisz nazwaną kopię zapasową",
+      "desc": "Eksportuje wszystkie bieżące konta i ustawienia ze wszystkich platform do nazwanego pliku kopii w katalogu kopii zapasowych (np. Rajkumar_Laptop.json).",
+      "namePlaceholder": "Nazwa kopii, np. Rajkumar_Laptop",
+      "save": "Zapisz kopię",
+      "nameHint": "Tylko litery, cyfry, podkreślenie i myślnik, maks. 64 znaki.",
+      "saved": "Zapisano: "
+    },
+    "merge": {
+      "title": "Scal loginy z innego urządzenia",
+      "desc": "Wybierz plik kopii zapasowej Cockpit Tools (.json) wyeksportowany na Twoim PC. Konta ze wszystkich platform zostaną scalone na tym komputerze; istniejące konta nie są duplikowane.",
+      "noFile": "Nie wybrano pliku",
+      "pick": "Wybierz plik",
+      "run": "Scal teraz",
+      "clear": "Wyczyść",
+      "emptyContent": "Najpierw wybierz plik kopii zapasowej",
+      "doneMsg": "Scalanie zakończone: zaimportowano kont: {{n}}",
+      "platforms": "platform(y)",
+      "failed": "niepowodzenie",
+      "skipped": "pominięto",
+      "details": "Pokaż szczegóły według platformy"
+    }
   }
 }
